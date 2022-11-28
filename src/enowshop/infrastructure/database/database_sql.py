@@ -31,4 +31,3 @@ class PostgresDatabase:
             raise
         finally:
             await session.close()
-
