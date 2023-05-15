@@ -10,10 +10,11 @@ from enowshop.infrastructure.containers import Container
 
 router = APIRouter()
 
+#user_data_auth=Depends(verify_jwt)
 
 @router.post('/category', status_code=status.HTTP_201_CREATED)
 @inject
-async def create_category(request: Request, category_data: CreateCategorySchema, user_data_auth=Depends(verify_jwt),
+async def create_category(request: Request, category_data: CreateCategorySchema,
                           category_service: CategoryService = Depends(Provide[Container.category_service])):
     return await category_service.create_category(category_data.dict())
 

@@ -42,6 +42,13 @@ class ProductsService:
         product['price'] *= 100
         await self.products_repo.update_by_uuid(pk=product_id, values=product)
 
+    async def change_status_active(self, product_uuid, action):
+        actions = {
+            'activate': self.products_repo.reactivate_by_uuid,
+            'deactivate': self.products_repo.soft_delete_by_uuid
+        }
+        await actions[action](product_uuid)
+
     @staticmethod
     def calc_new_price(results):
         for result in results:

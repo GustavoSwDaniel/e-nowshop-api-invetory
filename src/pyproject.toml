@@ -5,8 +5,8 @@ description = ""
 authors = ["GustavoDanielSW, <gustavodanieldetoledo@gmail.com>"]
 
 [[tool.poetry.source]]
-name = "enowsho-pypiserver"
-url = "http://18.207.202.104:8080/simple/"
+name = "pvtSource"
+url = "http://44.211.201.219:8080"
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -22,7 +22,10 @@ pyscript = "^0.2.5"
 boto3 = "^1.26.16"
 python-multipart = "^0.0.5"
 
-enowshop-models= {version = "v0.4.19", source = "enowsho-pypiserver"}
+enowshop-models = {version = "0.4.34", source = "pvtSource"}
+requests = "^2.26.0"
+cachecontrol = "^0.12.6"
+
 
 [tool.poetry.dev-dependencies]
 

@@ -20,9 +20,21 @@ class ProductsRepository(SqlRepository):
             if params.get('min_price'):
                 query = query.where(Products.price >= params.get('min_price'))
             if params.get('name'):
-                query = query.where(Products.name.like(f'%{params.get("name")}%'))
+                query = query.where(Products.name.ilike(f'%{params.get("name")}%'))
             if params.get('order_by') == 'created_at':
-                query = query.order_by(Products.created_at.desc())
+                if params.get('order') == 'asc':
+                    query = query.order_by(Products.created_at.asc())
+                else:
+                    query = query.order_by(Products.created_at.desc())
+            if params.get('order_by') == 'price':
+                if params.get('order') == 'asc':
+                    query = query.order_by(Products.price.asc())
+                else:
+                    query = query.order_by(Products.price.desc())
+            if params.get('order_by') == 'market':
+                query = query.order_by(Products.market.desc())
+
+            query = query.where(Products.is_active == True)
 
             total = await session.execute(select([func.count(Products.id)]).select_from(Products))
             results = await session.execute(query.options(
@@ -73,6 +85,16 @@ class ProductsRepository(SqlRepository):
     async def update_by_uuid(self, pk, values):
         async with self.session_factory() as session:
             await session.execute(update(self.model).where(self.model.uuid == pk).values(**values))
+            await session.commit()
+    
+    async def soft_delete_by_uuid(self, pk):
+        async with self.session_factory() as session:
+            await session.execute(update(self.model).where(self.model.uuid == pk).values(is_active=False))
+            await session.commit()
+    
+    async def reactivate_by_uuid(self, pk):
+        async with self.session_factory() as session:
+            await session.execute(update(self.model).where(self.model.uuid == pk).values(is_active=True))
             await session.commit()
 
 

@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enowshop-api-invetory-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enowshop-api-invetory
+  template:
+    metadata:
+      labels:
+        app: enowshop-api-invetory
+    spec:
+      containers:
+        - name: enowshop-api-invetory
+          image: gcr.io/enowhop/enowshop-api-invetory:latest
+          ports:
+              - containerPort: 8081
+          env:
+            - name: A-POSTGRES_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: api-invetory-secrets
+                  key: A-POSTGRES_DATABASE_URL
+            - name: KEYCLOAK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: api-invetory-secrets
+                  key: KEYCLOAK_URL
+            - name: S3_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: api-invetory-secrets
+                  key: S3_BUCKET_NAME
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: api-invetory-secrets
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: api-invetory-secrets
+                  key: AWS_ACCESS_KEY_ID
+            - name: KEYCLOAK_MANAGER_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: api-invetory-secrets
+                  key: KEYCLOAK_MANAGER_PUBLIC_KEY
+            - name: KEYCLOAK_EMPLOYESS_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: api-invetory-secrets
+                  key: KEYCLOAK_EMPLOYESS_PUBLIC_KEY
+            - name: KEYCLOAK_CLIENT_SECRET_EMPLOYEES
+              valueFrom:
+                secretKeyRef:
+                  name: api-invetory-secrets
+                  key: KEYCLOAK_CLIENT_SECRET_EMPLOYEES
+            - name: KEYCLOAK_CLIENT_SECRET_MANAGER
+              valueFrom:
+                secretKeyRef:
+                  name: api-invetory-secrets
+                  key: KEYCLOAK_CLIENT_SECRET_EMPLOYEES

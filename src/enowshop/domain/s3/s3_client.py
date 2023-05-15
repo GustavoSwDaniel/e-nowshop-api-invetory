@@ -24,11 +24,11 @@ class S3Client:
 
         try:
             self.client.upload_fileobj(file.file, self.s3_bucket_name, key, ExtraArgs={'ACL': 'public-read'})
-        except ClientError as error:
+        except Exception as error:
             logging.error(error)
-            raise ClientError
+            raise Exception
 
-        file_url = 'https://{bucket_name}.s3-{region}.amazonaws.com/{key}'.format(bucket_name=self.s3_bucket_name,
+        file_url = 'https://{bucket_name}.s3.amazonaws.com/{key}'.format(bucket_name=self.s3_bucket_name,
                                                                                   key=key,
                                                                                   region=self.aws_region_name)
         return file_url

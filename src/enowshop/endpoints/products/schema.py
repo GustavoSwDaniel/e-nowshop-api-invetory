@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 from pydantic import BaseModel, Field, validator
 
@@ -31,6 +31,7 @@ class ProductsSchema(BaseModel):
     image_url: str
     created_at: datetime
     category: List[CategorySchema]
+    infos: Optional[Dict]
 
     @validator('price')
     def price_to_float(cls, v):
@@ -46,6 +47,16 @@ class PaginateProductsSchema(BaseModel):
     count: int
     data: List[ProductsSchema]
 
+class DimensionSchema(BaseModel):
+    width: float
+    height: float
+    depth: float
+    weight: float
+class ProductsInfoSchema(BaseModel):
+    description: str
+    characteristics: List[Dict]
+    technical_specifications: List[Dict]
+    dimensions: DimensionSchema
 
 class ProductRegisterSchema(BaseModel):
     name: str
@@ -55,6 +66,8 @@ class ProductRegisterSchema(BaseModel):
     unity: int
     image_url: str
     category_uuid: str
+    infos: Dict
+
 
 
 class UpdateProductSchema(BaseModel):
