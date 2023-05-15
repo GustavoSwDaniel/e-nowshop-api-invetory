@@ -3,7 +3,7 @@ pipeline {
     environment {
         PROJECT_ID = 'enowhop'
         REGISTRY_URL = "gcr.io/${PROJECT_ID}"
-        IMAGE_NAME = 'enowshop-api-user'
+        IMAGE_NAME = 'enowshop-api-invetory'
         TAG_NAME = "${env.BUILD_ID}"
         CREDENTIALS_ID = "enowhop"
         HOSTNAME = "gcr.io"
