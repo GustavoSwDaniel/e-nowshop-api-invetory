@@ -39,8 +39,7 @@ async def get_all_products(request: Request, category: Union[str, None] = None,
 
     return await product_service.get_all_products_with_category(params=params)
 
-@router.get('/products/manager', status_code=status.HTTP_200_OK, response_model=PaginateProductsSchema,
-            dependencies=[Depends(verify_role)])
+@router.get('/products/manager', status_code=status.HTTP_200_OK, response_model=PaginateProductsSchema)
 @inject
 async def get_all_products(request: Request, category: Union[str, None] = None,
                            product_service: ProductsService = Depends(Provide[Container.product_service])):
